@@ -171,3 +171,17 @@ Requiere endurecimiento adicional antes de producción.
 ## 📄 Licencia
 
 Uso educativo y demostrativo únicamente.
+
+## 🖼️ Capturas del sistema
+
+### Autenticación de cliente
+
+![Dashboard](docs/images/login.png)
+
+### Generador de licencias
+
+![Generator](docs/images/formulario1.png)
+
+### Validación desde cliente
+
+![Verify](docs/images/listadotabla.png)
