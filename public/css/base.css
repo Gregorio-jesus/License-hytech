@@ -1,0 +1,332 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #0f0f0f;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #242424;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --accent-color: #6366f1;
+    --accent-hover: #5558e3;
+    --border-color: #2a2a2a;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --sidebar-width: 240px;
+    --sidebar-collapsed: 60px;
+    --header-height: 70px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.light-theme {
+    --bg-primary: #f5f7fa;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f0f2f5;
+    --text-primary: #1a1a1a;
+    --text-secondary: #6b7280;
+    --accent-color: #6366f1;
+    --accent-hover: #5558e3;
+    --border-color: #e5e7eb;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    transition: var(--transition);
+}
+
+.main-content {
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.collapsed~.main-content {
+    margin-left: var(--sidebar-collapsed);
+}
+
+.content {
+    padding: 30px;
+    min-height: calc(100vh - var(--header-height));
+    background-color: var(--bg-primary);
+    flex: 1;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0 !important;
+    }
+
+    .content {
+        padding: 15px;
+    }
+}
+
+.modal-overlay-global {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+    animation: modalFadeIn 0.2s ease-out;
+}
+
+.modal-container-global {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 600px;
+    padding: 30px 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 480px) {
+    .modal-container-global {
+        padding: 25px 15px;
+        border-radius: 16px;
+    }
+}
+
+.modal-body-global {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.modal-title-global {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.modal-content-global {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.modal-icon-global {
+    margin-bottom: 20px;
+    font-size: 3rem;
+}
+
+.modal-icon-global.warning {
+    color: #ffbc00;
+}
+
+.modal-icon-global.error {
+    color: #ef4444;
+}
+
+.modal-icon-global.success {
+    color: #10b981;
+}
+
+.modal-actions-global {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    width: 100%;
+}
+
+@media (max-width: 480px) {
+    .modal-actions-global {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .modal-btn-global {
+        width: 100%;
+    }
+}
+
+.modal-btn-global {
+    padding: 12px 30px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    min-width: 120px;
+}
+
+.btn-cancel-global {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-confirm-global {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.modal-btn-global:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.search-info-box {
+    text-align: left;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.search-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0 0 0;
+}
+
+.search-checklist li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.search-checklist li:last-child {
+    border-bottom: none;
+}
+
+.search-checklist li span {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.cancel-warning-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-primary);
+}
+
+.cancel-warning-box img {
+    display: block;
+    margin: 0 auto 15px auto;
+}
+
+.cancel-warning-box p {
+    margin-top: 10px;
+    color: var(--text-secondary);
+}
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+}
+
+.m-toast {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-left: 5px solid #28a745;
+    padding: 15px 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    border-top: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    min-width: 300px;
+    max-width: calc(100vw - 40px);
+}
+
+@media (max-width: 480px) {
+    .toast-container {
+        left: 20px;
+        right: 20px;
+    }
+
+    .m-toast {
+        min-width: unset;
+        width: 100%;
+    }
+}
+
+.m-toast.fade-out {
+    animation: toastFadeOut 0.5s ease-out forwards;
+}
+
+@keyframes toastSlideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes toastFadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+}
