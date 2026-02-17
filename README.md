@@ -7,53 +7,167 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# License Hytech
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Sistema SaaS de gestión y validación de licencias para aplicaciones de escritorio (ej. Electron). Incluye panel administrativo web y API segura para validación remota de licencias vinculadas a hardware.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Características
 
-## Learning Laravel
+* Generación de licencias cifradas descargables
+* Vinculación automática por HWID
+* Verificación remota por API
+* Expiración automática
+* Registro de actividad de licencias
+* Panel administrativo (solo servidor privado)
+* Soporte multi‑cliente
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🧩 Arquitectura
 
-## Laravel Sponsors
+Aplicación dividida en dos partes:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Servidor Laravel (este repositorio)
 
-### Premium Partners
+   * Genera y valida licencias
+   * Provee endpoints API
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+2. Cliente Desktop (no incluido)
 
-## Contributing
+   * Envía HWID
+   * Consume endpoints de verificación
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 🔐 Importante (Repositorio público)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Este repositorio es una versión DEMO del servidor.
 
-## Security Vulnerabilities
+Se eliminaron deliberadamente:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* Credenciales reales
+* Configuración productiva
+* Panel administrativo completo
+* Variables sensibles
 
-## License
+El servidor productivo contiene lógica adicional de seguridad no publicada.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 🚀 Instalación local
+
+### Requisitos
+
+* PHP 8.2+
+* Composer
+* MySQL (Local, en la caperta "database" se encuentra la base de datos nombrada "BD.sql")
+* Node (opcional para assets)
+
+### Pasos
+
+```bash
+# Clonar repositorio
+git clone <repo>
+cd servidor-hytech
+
+# Dependencias
+composer install
+
+# Configuración
+cp .env.example .env
+php artisan key:generate
+
+# Base de datos
+Importar la base de datos en tu gestor de administrador de base de datos.
+
+# Servidor
+php artisan serve
+```
+
+---
+
+## ⚙️ Variables de entorno necesarias
+
+Ejemplo mínimo:
+
+```
+APP_NAME=LicenseHytech
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=licenses
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+---
+
+## 🔌 Endpoints API
+
+### 1. Verificar archivo de licencia
+
+POST `/api/check-license`
+
+Body:
+
+```json
+{
+  "license_key": "archivo_encriptado",
+  "hwid": "DEVICE_ID"
+}
+```
+
+Respuesta exitosa:
+
+```json
+{
+  "status": "success",
+  "client": "Cliente",
+  "gym": "Nombre",
+  "expires_at": "2026-01-01",
+  "token": "session_token"
+}
+```
+
+---
+
+### 2. Verificación periódica
+
+POST `/api/verify-license`
+
+```json
+{
+  "license_key": "HY-XXX-XXXX",
+  "hwid": "DEVICE_ID"
+}
+```
+
+---
+
+## 🛡️ Seguridad implementada
+
+* Licencias cifradas con clave del servidor
+* Vinculación por hardware
+* Token de sesión temporal
+* Expiración automática
+* Invalidación por estado
+
+---
+
+## ❗ Nota para desarrolladores
+
+Este proyecto no está diseñado para ejecutarse como SaaS público directo.
+Requiere endurecimiento adicional antes de producción.
+
+---
+
+## 📄 Licencia
+
+Uso educativo y demostrativo únicamente.
